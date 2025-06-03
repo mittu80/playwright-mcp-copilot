@@ -1,0 +1,16 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "headless": false
+  },
+  "server": {
+    "port": 8931,
+    "host": "localhost"
+  },
+    "mcpServers": {
+    "playwright": {
+      "url": "http://localhost:8931/sse"
+    }
+  }
+}
+

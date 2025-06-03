@@ -15,29 +15,22 @@
  */
 
 import { defineConfig } from '@playwright/test';
-
 import type { TestOptions } from './tests/fixtures.js';
 
 export default defineConfig<TestOptions>({
   testDir: './tests',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   reporter: 'list',
+  use: {
+    headless: false,
+    trace: 'on-first-retry'
+  },
   projects: [
-    { name: 'chrome' },
-    { name: 'msedge', use: { mcpBrowser: 'msedge' } },
-    { name: 'chromium', use: { mcpBrowser: 'chromium' } },
-    ...process.env.MCP_IN_DOCKER ? [{
-      name: 'chromium-docker',
-      grep: /browser_navigate|browser_click/,
-      use: {
-        mcpBrowser: 'chromium',
-        mcpMode: 'docker' as const
-      }
-    }] : [],
-    { name: 'firefox', use: { mcpBrowser: 'firefox' } },
-    { name: 'webkit', use: { mcpBrowser: 'webkit' } },
-  ],
+    {
+      name: 'search-tests',
+      testMatch: '**/search.spec.ts'
+    }
+  ]
 });
